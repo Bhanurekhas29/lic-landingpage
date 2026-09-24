@@ -1,0 +1,76 @@
+{% if development_officer.is_active %}
+<section class="section" id="development-officer">
+  <div class="container">
+    <div class="who-apply__heading reveal">
+      <div class="eyebrow-row" style="justify-content: center;">
+        {% if development_officer.number_badge %}<span class="number-badge">{{ development_officer.number_badge }}</span>{% endif %}
+        <span class="eyebrow-text">{{ development_officer.eyebrow }}</span>
+      </div>
+      <h2 class="section-heading">{{ development_officer.heading }}</h2>
+      <div class="underline-accent" style="margin-left: auto; margin-right: auto;"></div>
+    </div>
+
+    <div class="officer-card reveal">
+      <div class="officer-card__profile">
+        {% if development_officer.photo_badge_text %}
+        <span class="officer-card__badge">{{ development_officer.photo_badge_text }}</span>
+        {% endif %}
+        <div class="officer-card__photo-wrap">
+          {% if development_officer.photo %}
+          <img src="{{ development_officer.photo.url }}" alt="{{ development_officer.officer_name }}" class="officer-card__photo">
+          {% else %}
+          <div class="officer-card__photo officer-card__photo--placeholder"></div>
+          {% endif %}
+          <span class="officer-card__photo-badge">
+            <span class="material-symbols-outlined">workspace_premium</span>
+          </span>
+        </div>
+        <h3 class="officer-card__name">{{ development_officer.officer_name }}</h3>
+        <p class="officer-card__title">{{ development_officer.officer_title }}</p>
+        {% if development_officer.quote_text %}
+        <p class="officer-card__quote">&ldquo;{{ development_officer.quote_text }}&rdquo;</p>
+        {% endif %}
+      </div>
+
+      <div class="officer-card__support">
+        {% if development_officer.support_eyebrow %}
+        <div class="officer-card__support-eyebrow">{{ development_officer.support_eyebrow }}</div>
+        {% endif %}
+
+        {% for item in development_officer.support_items.all %}
+          {% if item.is_active %}
+          <div class="officer-support-item">
+            <div class="officer-support-item__icon
+              {% if item.title == 'Recruitment Guidance' %} officer-support-item__icon--orange
+              {% elif item.title == 'Training Support' %} officer-support-item__icon--blue
+              {% elif item.title == 'Business Development' %} officer-support-item__icon--green
+              {% endif %}">
+              {% if item.icon %}
+                <img src="{{ item.icon.url }}" alt="{{ item.title }}">
+              {% elif item.title == "Recruitment Guidance" %}
+                <span class="material-symbols-outlined officer-support-item__glyph">person_search</span>
+              {% elif item.title == "Training Support" %}
+                <span class="material-symbols-outlined officer-support-item__glyph">school</span>
+              {% elif item.title == "Business Development" %}
+                <span class="material-symbols-outlined officer-support-item__glyph">trending_up</span>
+              {% else %}
+                <span class="feature-card__icon-dot"></span>
+              {% endif %}
+            </div>
+            <div>
+              <h4 class="officer-support-item__title">{{ item.title|upper }}</h4>
+              <p class="officer-support-item__desc">{{ item.description }}</p>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+
+        <div class="officer-card__footer">
+          {% if development_officer.footer_note %}<span class="officer-card__note">{{ development_officer.footer_note }}</span>{% endif %}
+          <a href="{{ development_officer.cta_link }}" class="btn btn-primary">{{ development_officer.cta_text }} {% include 'core/partials/arrow_icon.html' %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

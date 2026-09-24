@@ -1,0 +1,52 @@
+{% if training_support.is_active %}
+<section class="section section--light" id="training-support">
+  <div class="container">
+    <div class="training__grid">
+      <div class="training__media reveal">
+        {% if training_support.image %}
+          <img src="{{ training_support.image.url }}" alt="{{ training_support.heading }}">
+        {% endif %}
+        {% if training_support.image_caption %}
+        <div class="training__caption">{{ training_support.image_caption }}</div>
+        {% endif %}
+      </div>
+
+      <div class="reveal">
+        <div class="eyebrow-row">
+          {% if training_support.number_badge %}<span class="number-badge">{{ training_support.number_badge }}</span>{% endif %}
+          <span class="eyebrow-text">{{ training_support.eyebrow }}</span>
+        </div>
+        <h2 class="section-heading">{{ training_support.heading }}</h2>
+
+        <div class="checklist">
+          {% for item in training_support.items.all %}
+            {% if item.is_active %}
+            <div class="checklist__item">
+              <div class="checklist__icon">
+                {% if item.icon %}
+                  <img src="{{ item.icon.url }}" alt="{{ item.title }}">
+                {% elif item.title == "Product Training" %}
+                  <span class="material-symbols-outlined checklist__icon-glyph">menu_book</span>
+                {% elif item.title == "Sales Guidance" %}
+                  <span class="material-symbols-outlined checklist__icon-glyph">handshake</span>
+                {% elif item.title == "Business Development" %}
+                  <span class="material-symbols-outlined checklist__icon-glyph">domain</span>
+                {% elif item.title == "Ongoing Support" %}
+                  <span class="material-symbols-outlined checklist__icon-glyph">headset_mic</span>
+                {% else %}
+                  <span class="feature-card__icon-dot"></span>
+                {% endif %}
+              </div>
+              <div>
+                <h3 class="checklist__title">{{ item.title }}</h3>
+                <p class="checklist__desc">{{ item.description }}</p>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

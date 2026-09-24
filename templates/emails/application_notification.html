@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Candidate Application</title>
+</head>
+<body style="margin:0; padding:0; background-color:#F1F8FF; font-family: Arial, Helvetica, sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F1F8FF; padding:24px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#FFFFFF; border-radius:8px; overflow:hidden; max-width:600px; width:100%;">
+
+          <tr>
+            <td style="background-color:#074AA9; padding:24px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-size:22px; font-weight:bold; color:#FFFFFF;">LIC Agency</td>
+                  <td align="right" style="font-size:12px; color:#FBC707; letter-spacing:1px;">CAREERS</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:32px;">
+              <h1 style="margin:0 0 16px 0; font-size:24px; color:#074AA9;">New Candidate Application</h1>
+              <p style="margin:0 0 24px 0; font-size:14px; color:#444444; line-height:1.6;">
+                A new candidate has submitted an application through the website. Details are below.
+              </p>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                <tr>
+                  <td style="padding:12px 16px; background-color:#F1F8FF; font-size:13px; color:#074AA9; font-weight:bold; width:35%; border-bottom:1px solid #E6EEF7;">Full Name</td>
+                  <td style="padding:12px 16px; background-color:#F1F8FF; font-size:13px; color:#222222; border-bottom:1px solid #E6EEF7;">{{ application.full_name }}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px; font-size:13px; color:#074AA9; font-weight:bold; border-bottom:1px solid #E6EEF7;">Mobile Number</td>
+                  <td style="padding:12px 16px; font-size:13px; color:#222222; border-bottom:1px solid #E6EEF7;">{{ application.mobile_number }}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px; background-color:#F1F8FF; font-size:13px; color:#074AA9; font-weight:bold; border-bottom:1px solid #E6EEF7;">Email Address</td>
+                  <td style="padding:12px 16px; background-color:#F1F8FF; font-size:13px; color:#222222; border-bottom:1px solid #E6EEF7;">{{ application.email }}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px; font-size:13px; color:#074AA9; font-weight:bold; border-bottom:1px solid #E6EEF7;">City</td>
+                  <td style="padding:12px 16px; font-size:13px; color:#222222; border-bottom:1px solid #E6EEF7;">{{ application.city }}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px; background-color:#F1F8FF; font-size:13px; color:#074AA9; font-weight:bold;">Qualification</td>
+                  <td style="padding:12px 16px; background-color:#F1F8FF; font-size:13px; color:#222222;">{{ application.qualification }}</td>
+                </tr>
+              </table>
+
+              <div style="margin-top:28px; text-align:center;">
+                <a href="mailto:{{ application.email }}" style="display:inline-block; background-color:#FBC707; color:#074AA9; font-weight:bold; font-size:14px; padding:12px 28px; border-radius:999px; text-decoration:none;">Reply to Candidate</a>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="background-color:#F1F8FF; padding:16px 32px; text-align:center;">
+              <p style="margin:0; font-size:11px; color:#888888;">Submitted on {{ application.created_at|date:"d M Y, h:i A" }} &middot; LIC Agency Website</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

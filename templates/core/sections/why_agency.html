@@ -1,0 +1,43 @@
+{% if why_agency.is_active %}
+<section class="section section--light" id="why-agency">
+  <div class="container">
+    <div class="eyebrow-row reveal">
+      {% if why_agency.number_badge %}<span class="number-badge">{{ why_agency.number_badge }}</span>{% endif %}
+      <span class="eyebrow-text">{{ why_agency.eyebrow }}</span>
+    </div>
+    <h2 class="section-heading reveal">
+      {{ why_agency.heading_regular }}<br>
+      <span class="italic">{{ why_agency.heading_italic }}</span>
+    </h2>
+    <div class="underline-accent reveal"></div>
+
+    <div class="feature-grid feature-grid--5">
+      {% for feature in why_agency.features.all %}
+        {% if feature.is_active %}
+        <div class="feature-card reveal">
+          <div class="feature-card__icon">
+            {% if feature.icon %}
+              <img src="{{ feature.icon.url }}" alt="{{ feature.title }}">
+            {% elif feature.title == "Flexible Work" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph">calendar_month</span>
+            {% elif feature.title == "Training" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph">menu_book</span>
+            {% elif feature.title == "Client Network" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph">groups</span>
+            {% elif feature.title == "Performance Earnings" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph">trending_up</span>
+            {% elif feature.title == "Long-term Growth" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph">directions_run</span>
+            {% else %}
+              <span class="feature-card__icon-dot"></span>
+            {% endif %}
+          </div>
+          <h3 class="feature-card__title">{{ feature.title }}</h3>
+          <p class="feature-card__desc">{{ feature.description }}</p>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

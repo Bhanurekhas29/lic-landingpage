@@ -1,0 +1,31 @@
+{% if how_it_works.is_active %}
+<section class="section" id="how-it-works">
+  <div class="container">
+    <div class="eyebrow-row reveal">
+      {% if how_it_works.number_badge %}<span class="number-badge">{{ how_it_works.number_badge }}</span>{% endif %}
+      <span class="eyebrow-text">{{ how_it_works.eyebrow }}</span>
+    </div>
+    <h2 class="section-heading reveal">
+      {{ how_it_works.heading_regular }}<br>
+      <span class="italic">{{ how_it_works.heading_italic }}</span>
+    </h2>
+
+    <div class="timeline reveal">
+      {% for step in how_it_works.steps.all %}
+        {% if step.is_active %}
+        <div class="timeline__step">
+          <div class="timeline__circle">{{ step.step_number }}</div>
+          <div class="timeline__content">
+            <h3 class="timeline__title">
+              {% if step.icon %}<img src="{{ step.icon.url }}" alt="" class="timeline__icon">{% endif %}
+              {{ step.title }}
+            </h3>
+            <p class="timeline__desc">{{ step.description }}</p>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

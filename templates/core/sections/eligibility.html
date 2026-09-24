@@ -1,0 +1,47 @@
+{% if eligibility.is_active %}
+<section class="section" id="eligibility">
+  <div class="container">
+    <div class="who-apply__heading reveal">
+      <div class="eyebrow-row" style="justify-content: center;">
+        {% if eligibility.number_badge %}<span class="number-badge">{{ eligibility.number_badge }}</span>{% endif %}
+        <span class="eyebrow-text">{{ eligibility.eyebrow }}</span>
+      </div>
+      <h2 class="section-heading">{{ eligibility.heading }}</h2>
+      <div class="underline-accent" style="margin-left: auto; margin-right: auto;"></div>
+    </div>
+
+    <div class="feature-grid feature-grid--4 reveal">
+      {% for req in eligibility.requirements.all %}
+        {% if req.is_active %}
+        <div class="feature-card feature-card--center">
+          <div class="feature-card__icon feature-card__icon--circle">
+            {% if req.icon %}
+              <img src="{{ req.icon.url }}" alt="{{ req.title }}">
+            {% elif req.title == "Education" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph feature-card__icon-glyph--circle">school</span>
+            {% elif req.title == "Age" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph feature-card__icon-glyph--circle">person</span>
+            {% elif req.title == "Training" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph feature-card__icon-glyph--circle">dynamic_form</span>
+            {% elif req.title == "Examination" %}
+              <span class="material-symbols-outlined feature-card__icon-glyph feature-card__icon-glyph--circle">schedule</span>
+            {% else %}
+              <span class="feature-card__icon-dot"></span>
+            {% endif %}
+          </div>
+          <h3 class="feature-card__title">{{ req.title }}</h3>
+          <p class="feature-card__desc">{{ req.description }}</p>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if eligibility.note_text %}
+    <div class="note-banner reveal">
+      <span class="material-symbols-outlined note-banner__icon">warning</span>
+      <span>{{ eligibility.note_text }}</span>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

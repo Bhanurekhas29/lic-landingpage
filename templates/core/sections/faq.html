@@ -1,0 +1,38 @@
+{% load static %}
+{% if faq.is_active %}
+<section class="section" id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="reveal">
+        <div class="eyebrow-row">
+          {% if faq.number_badge %}<span class="number-badge">{{ faq.number_badge }}</span>{% endif %}
+          <span class="eyebrow-text">{{ faq.eyebrow }}</span>
+        </div>
+        <h2 class="section-heading">
+          {{ faq.heading_regular }}<br>
+          <span class="italic">{{ faq.heading_italic }}</span>
+        </h2>
+        {% if faq.subtitle %}<p class="section-subtitle">{{ faq.subtitle }}</p>{% endif %}
+
+        <img src="{% static 'images/faq-leaf.png' %}" alt="" class="faq-leaf">
+      </div>
+
+      <div class="faq-list reveal">
+        {% for item in faq.items.all %}
+          {% if item.is_active %}
+          <div class="faq-item">
+            <button type="button" class="faq-item__question">
+              <span>{{ item.question }}</span>
+              <span class="faq-item__toggle">+</span>
+            </button>
+            <div class="faq-item__answer">
+              <p>{{ item.answer }}</p>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

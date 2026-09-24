@@ -1,0 +1,31 @@
+{% if who_can_apply.is_active %}
+<section class="section section--light" id="who-can-apply">
+  <div class="container">
+    <div class="who-apply__heading reveal">
+      <div class="eyebrow-row" style="justify-content: center;">
+        {% if who_can_apply.number_badge %}<span class="number-badge">{{ who_can_apply.number_badge }}</span>{% endif %}
+        <span class="eyebrow-text">{{ who_can_apply.eyebrow }}</span>
+      </div>
+      <h2 class="section-heading">{{ who_can_apply.heading }}</h2>
+      <div class="underline-accent" style="margin-left: auto; margin-right: auto;"></div>
+      {% if who_can_apply.subtitle %}<p class="section-subtitle">{{ who_can_apply.subtitle }}</p>{% endif %}
+    </div>
+
+    <div class="who-apply__panel reveal">
+      {% if who_can_apply.image %}
+      <div class="who-apply__image" style="background-image: url('{{ who_can_apply.image.url }}');"></div>
+      {% endif %}
+      <div class="who-apply__list">
+        {% for item in who_can_apply.items.all %}
+          {% if item.is_active %}
+          <div class="who-apply__item">
+            <span class="who-apply__number">{{ forloop.counter|stringformat:"02d" }}</span>
+            <span class="who-apply__title">{{ item.title }}</span>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

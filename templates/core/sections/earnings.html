@@ -1,0 +1,54 @@
+{% if earnings.is_active %}
+<section class="section" id="earnings">
+  <div class="container">
+    <div class="earnings-panel reveal">
+      <div class="earnings-panel__top">
+        <div>
+          <div class="eyebrow-row">
+            {% if earnings.number_badge %}<span class="eyebrow-text">{{ earnings.number_badge }} &middot; {{ earnings.eyebrow }}</span>{% endif %}
+          </div>
+          <h2 class="section-heading" style="color: var(--color-white);">{{ earnings.heading }}</h2>
+          {% if earnings.subtitle %}<p class="section-subtitle">{{ earnings.subtitle }}</p>{% endif %}
+        </div>
+        {% if earnings.side_script_line1 or earnings.side_script_line2 %}
+        <div class="earnings-panel__script">
+          <span>{{ earnings.side_script_line1 }}</span>
+          <span class="italic">{{ earnings.side_script_line2 }}</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="feature-grid feature-grid--3">
+        {% for feature in earnings.features.all %}
+          {% if feature.is_active %}
+          <div class="feature-card">
+            <div class="feature-card__icon">
+              {% if feature.icon %}
+                <img src="{{ feature.icon.url }}" alt="{{ feature.title }}">
+              {% elif feature.title == "Performance-Based" %}
+                <span class="material-symbols-outlined feature-card__icon-glyph">edit_square</span>
+              {% elif feature.title == "Additional Benefits" %}
+                <span class="material-symbols-outlined feature-card__icon-glyph">percent</span>
+              {% elif feature.title == "Higher Effort, Higher Rewards" %}
+                <span class="material-symbols-outlined feature-card__icon-glyph">trending_up</span>
+              {% else %}
+                <span class="feature-card__icon-dot"></span>
+              {% endif %}
+            </div>
+            <h3 class="feature-card__title">{{ feature.title }}</h3>
+            <p class="feature-card__desc">{{ feature.description }}</p>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if earnings.note_text %}
+      <div class="note-banner">
+        <span class="material-symbols-outlined note-banner__icon">warning</span>
+        <span>{{ earnings.note_text }}</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}

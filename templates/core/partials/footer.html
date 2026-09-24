@@ -1,0 +1,58 @@
+{% if footer.is_active %}
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div>
+        <div class="site-footer__brand">
+          {% if footer.logo %}
+            <img src="{{ footer.logo.url }}" alt="{{ footer.brand_name }}" class="site-footer__logo">
+          {% elif site_settings.logo %}
+            <img src="{{ site_settings.logo.url }}" alt="{{ footer.brand_name }}" class="site-footer__logo">
+          {% endif %}
+          <span class="site-footer__brand-name">{{ footer.brand_name }}</span>
+        </div>
+        <p>{{ footer.description }}</p>
+      </div>
+
+      <div>
+        {% if footer.information_heading %}<div class="site-footer__heading">{{ footer.information_heading }}</div>{% endif %}
+        <ul class="site-footer__links">
+          {% for link in footer.links.all %}
+            {% if link.is_active %}
+              <li>
+                {% if link.label == "Privacy Policy" %}
+                  <a href="#" data-legal-modal="privacy">{{ link.label }}</a>
+                {% elif link.label == "Terms & Conditions" %}
+                  <a href="#" data-legal-modal="terms">{{ link.label }}</a>
+                {% elif link.label == "Disclaimer" %}
+                  <a href="#" data-legal-modal="disclaimer">{{ link.label }}</a>
+                {% else %}
+                  <a href="{{ link.url }}">{{ link.label }}</a>
+                {% endif %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div>
+        {% if footer.contact_heading %}<div class="site-footer__heading">{{ footer.contact_heading }}</div>{% endif %}
+        <ul class="site-footer__links">
+          {% if contact_info.address_line %}<li>{{ contact_info.address_line }}</li>{% endif %}
+          {% if contact_info.phone %}<li><a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a></li>{% endif %}
+          {% if contact_info.email %}<li><a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+
+    {% if footer.disclaimer_text %}
+    <p class="site-footer__disclaimer">{{ footer.disclaimer_text }}</p>
+    {% endif %}
+
+    <div class="site-footer__bottom">
+      <span>{{ footer.copyright_text }}</span>
+      <span>{{ footer.bottom_note_text }}</span>
+    </div>
+  </div>
+</footer>
+{% endif %}

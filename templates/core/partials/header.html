@@ -1,0 +1,29 @@
+{% load static %}
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="#home" class="site-header__brand">
+      {% if site_settings.logo %}
+        <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name }}" class="site-header__logo">
+      {% else %}
+        <span class="site-header__logo-placeholder"></span>
+      {% endif %}
+      <span>
+        <span class="site-header__name">{{ site_settings.site_name }}</span>
+        {% if site_settings.tagline %}<br><span class="site-header__tagline">{{ site_settings.tagline }}</span>{% endif %}
+      </span>
+    </a>
+
+    <nav class="site-nav">
+      {% for item in menu_items %}
+        <a href="{{ item.link }}">{{ item.label }}</a>
+      {% endfor %}
+      <a href="{{ site_settings.cta_link }}" class="btn btn-primary site-nav__cta">{{ site_settings.cta_text }} {% include 'core/partials/arrow_icon.html' %}</a>
+    </nav>
+
+    <a href="{{ site_settings.cta_link }}" class="btn btn-primary site-header__cta">{{ site_settings.cta_text }} {% include 'core/partials/arrow_icon.html' %}</a>
+
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>

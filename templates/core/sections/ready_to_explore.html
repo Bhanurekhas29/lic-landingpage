@@ -1,0 +1,30 @@
+{% if ready_to_explore.is_active %}
+<section class="section">
+  <div class="container">
+    <div class="cta-banner reveal" {% if ready_to_explore.background_image %}style="background-image: linear-gradient(90deg, rgba(7,74,169,0.92), rgba(7,74,169,0.55)), url('{{ ready_to_explore.background_image.url }}');"{% endif %}>
+      {% if ready_to_explore.eyebrow %}
+      <div class="cta-banner__eyebrow">{{ ready_to_explore.eyebrow }}</div>
+      {% endif %}
+      <h2 class="cta-banner__heading">
+        {{ ready_to_explore.heading_regular }} <span class="cta-banner__highlight">{{ ready_to_explore.heading_highlight }}</span>
+      </h2>
+      {% if ready_to_explore.subtitle %}<p class="cta-banner__subtitle">{{ ready_to_explore.subtitle }}</p>{% endif %}
+
+      <a href="{{ ready_to_explore.cta_link }}" class="btn btn-primary">{{ ready_to_explore.cta_text }} {% include 'core/partials/arrow_icon.html' %}</a>
+
+      {% if ready_to_explore.features.all %}
+      <div class="cta-banner__features">
+        {% for feature in ready_to_explore.features.all %}
+          {% if feature.is_active %}
+          <span class="cta-banner__feature">
+            {% if feature.icon %}<img src="{{ feature.icon.url }}" alt="">{% endif %}
+            {{ feature.text }}
+          </span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
