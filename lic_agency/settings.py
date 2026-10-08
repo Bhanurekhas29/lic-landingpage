@@ -148,6 +148,15 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
     "navigation_expanded": True,
     "order_with_respect_to": ["auth", "core"],
+    "hide_models": ["core.emailsettings"],
+    "custom_links": {
+        "auth": [{
+            "name": "Email Settings",
+            "url": "admin:core_emailsettings_changelist",
+            "icon": "fas fa-envelope",
+            "permissions": ["core.change_emailsettings"],
+        }],
+    },
 }
 
 JAZZMIN_UI_TWEAKS = {

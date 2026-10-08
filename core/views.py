@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
@@ -10,6 +10,7 @@ from .models import (
     HeroSection, WhyAgencySection, HowItWorksSection, WhoCanApplySection,
     EligibilitySection, TrainingSupportSection, DevelopmentOfficerSection,
     EarningsSection, TestimonialsSection, FAQSection, ReadyToExploreSection,
+    EmailSettings,
 )
 
 
@@ -43,16 +44,25 @@ def submit_application(request):
 
 
 def _send_application_emails(application):
-    if not settings.CONTACT_RECEIVER_EMAIL:
+    # Email details come from Admin > Authentication > Email Settings.
+    # Any field left blank there falls back to the .env value.
+    cfg = EmailSettings.load()
+    host_user = cfg.email_host_user or settings.EMAIL_HOST_USER
+    host_password = cfg.email_host_password or settings.EMAIL_HOST_PASSWORD
+    from_email = cfg.default_from_email or host_user or settings.DEFAULT_FROM_EMAIL
+    receiver = cfg.contact_receiver_email or settings.CONTACT_RECEIVER_EMAIL
+    if not receiver:
         return
 
     html_body = render_to_string('emails/application_notification.html', {'application': application})
 
+    connection = get_connection(username=host_user, password=host_password, fail_silently=True)
     email = EmailMultiAlternatives(
         subject=f"New Candidate Application - {application.full_name}",
         body=f"New application from {application.full_name} ({application.mobile_number}, {application.email})",
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[settings.CONTACT_RECEIVER_EMAIL],
+        from_email=from_email,
+        to=[receiver],
+        connection=connection,
     )
     email.attach_alternative(html_body, "text/html")
     email.send(fail_silently=True)

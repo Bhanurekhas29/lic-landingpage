@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.urls import reverse
 from django.shortcuts import redirect
@@ -15,7 +16,7 @@ from .models import (
     FAQSection, FAQItem,
     ReadyToExploreSection, ReadyToExploreFeature,
     ContactInfo, SocialLink, FooterSection, FooterLink,
-    LegalPages,
+    LegalPages, EmailSettings,
 )
 
 
@@ -23,7 +24,11 @@ from .models import (
 class SiteSettingsAdmin(admin.ModelAdmin):
     """Singleton admin: always edits the one SiteSettings row, no add/delete."""
 
-    fields = ('logo', 'site_name', 'tagline', 'cta_text', 'cta_link')
+    fieldsets = (
+        (None, {'fields': ('logo', 'site_name', 'tagline', 'cta_text', 'cta_link')}),
+        ("SEO", {'fields': ('seo_title', 'meta_description')}),
+        ("Developer Credit (below footer)", {'fields': ('show_credit', 'credit_text', 'credit_link')}),
+    )
 
     def has_add_permission(self, request):
         return not SiteSettings.objects.exists()
@@ -57,7 +62,7 @@ class HeroSectionAdmin(admin.ModelAdmin):
     fieldsets = (
         ("Visibility", {'fields': ('is_active',)}),
         ("Banner", {'fields': ('background_image', 'badge_text', 'heading', 'description')}),
-        ("Call to Action", {'fields': ('cta_text', 'cta_link', 'trust_badge_text')}),
+        ("Call to Action", {'fields': ('cta_text', 'cta_link', 'secondary_cta_text', 'secondary_cta_link', 'trust_badge_text')}),
         ("Application Form", {'fields': ('form_eyebrow', 'form_heading', 'consent_text', 'submit_button_text')}),
     )
 
@@ -85,7 +90,7 @@ class WhyAgencySectionAdmin(admin.ModelAdmin):
     inlines = [WhyAgencyFeatureInline]
     fieldsets = (
         ("Visibility", {'fields': ('is_active',)}),
-        ("Heading", {'fields': ('number_badge', 'eyebrow', 'heading_regular', 'heading_italic')}),
+        ("Heading", {'fields': ('number_badge', 'eyebrow', 'heading_regular', 'heading_italic', 'intro')}),
     )
 
     def has_add_permission(self, request):
@@ -129,7 +134,7 @@ class HowItWorksSectionAdmin(admin.ModelAdmin):
 class WhoCanApplyItemInline(admin.TabularInline):
     model = WhoCanApplyItem
     extra = 1
-    fields = ('number', 'title', 'order', 'is_active')
+    fields = ('number', 'title', 'description', 'order', 'is_active')
 
 
 @admin.register(WhoCanApplySection)
@@ -195,8 +200,9 @@ class TrainingSupportSectionAdmin(admin.ModelAdmin):
     inlines = [TrainingSupportItemInline]
     fieldsets = (
         ("Visibility", {'fields': ('is_active',)}),
-        ("Heading", {'fields': ('number_badge', 'eyebrow', 'heading')}),
+        ("Heading", {'fields': ('number_badge', 'eyebrow', 'heading', 'intro')}),
         ("Image", {'fields': ('image', 'image_caption')}),
+        ("Call to Action", {'fields': ('cta_text', 'cta_link')}),
     )
 
     def has_add_permission(self, request):
@@ -281,7 +287,7 @@ class TestimonialsSectionAdmin(admin.ModelAdmin):
     inlines = [TestimonialInline]
     fieldsets = (
         ("Visibility", {'fields': ('is_active',)}),
-        ("Heading", {'fields': ('number_badge', 'eyebrow', 'heading_regular', 'heading_italic')}),
+        ("Heading", {'fields': ('number_badge', 'eyebrow', 'heading_regular', 'heading_italic', 'subtitle')}),
     )
 
     def has_add_permission(self, request):
@@ -438,3 +444,26 @@ class ApplicationAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+
+@admin.register(EmailSettings)
+class EmailSettingsAdmin(admin.ModelAdmin):
+    """Singleton admin: always edits the one EmailSettings row, no add/delete."""
+
+    fields = ('email_host_user', 'email_host_password', 'default_from_email', 'contact_receiver_email')
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        field = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == 'email_host_password':
+            field.widget = forms.PasswordInput(render_value=True, attrs={'autocomplete': 'new-password'})
+        return field
+
+    def has_add_permission(self, request):
+        return not EmailSettings.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        obj = EmailSettings.load()
+        return redirect(reverse('admin:core_emailsettings_change', args=[obj.pk]))

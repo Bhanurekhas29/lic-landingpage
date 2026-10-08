@@ -26,6 +26,7 @@
 
         <div class="hero__actions">
           <a href="{{ hero.cta_link }}" class="btn btn-primary">{{ hero.cta_text }} {% include 'core/partials/arrow_icon.html' %}</a>
+          {% if hero.secondary_cta_text %}<a href="{{ hero.secondary_cta_link }}" class="btn btn-outline">{{ hero.secondary_cta_text }}</a>{% endif %}
           {% if hero.trust_badge_text %}
           <span class="hero__trust"><span class="material-symbols-outlined hero__trust-icon">verified_user</span> {{ hero.trust_badge_text }}</span>
           {% endif %}

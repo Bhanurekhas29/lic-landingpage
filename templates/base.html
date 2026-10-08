@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% block title %}{{ site_settings.site_name }}{% if site_settings.tagline %} | {{ site_settings.tagline }}{% endif %}{% endblock %}</title>
+<title>{% block title %}{% if site_settings.seo_title %}{{ site_settings.seo_title }}{% else %}{{ site_settings.site_name }}{% if site_settings.tagline %} | {{ site_settings.tagline }}{% endif %}{% endif %}{% endblock %}</title>
+{% if site_settings.meta_description %}<meta name="description" content="{{ site_settings.meta_description }}">{% endif %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
@@ -29,6 +30,13 @@
 </main>
 
 {% include 'core/partials/footer.html' %}
+{% if site_settings.show_credit and site_settings.credit_text %}
+<div class="site-credit">
+  <div class="container">
+    <a href="{{ site_settings.credit_link }}" target="_blank" rel="noopener">{{ site_settings.credit_text }}</a>
+  </div>
+</div>
+{% endif %}
 
 <div class="floating-contacts">
   <a href="https://wa.me/{{ contact_info.whatsapp_number|default:'910000000000' }}" class="floating-contacts__whatsapp" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">

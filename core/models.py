@@ -30,12 +30,35 @@ class SiteSettings(SingletonModel):
     cta_text = models.CharField(max_length=50, default="Apply Now", help_text="Header call-to-action button text.")
     cta_link = models.CharField(max_length=255, default="#apply", help_text="URL or in-page anchor, e.g. #apply")
 
+    show_credit = models.BooleanField(default=True, help_text="Uncheck to hide the 'Designed and Developed by' strip below the footer.")
+    credit_text = models.CharField(max_length=150, default="Designed and Developed by Vetri IT Systems")
+    credit_link = models.URLField(default="https://vetriitsystems.com/")
+
+    seo_title = models.CharField(max_length=70, blank=True, help_text="Browser tab / Google title tag. Leave blank to use site name and tagline.")
+    meta_description = models.CharField(max_length=320, blank=True, help_text="Meta description shown in search results (about 150-160 characters).")
+
     def __str__(self):
         return "Site Settings"
 
     class Meta:
         verbose_name = "Site Settings"
         verbose_name_plural = "Site Settings"
+
+
+class EmailSettings(SingletonModel):
+    """Singleton: Gmail SMTP details used to email new candidate applications."""
+
+    email_host_user = models.EmailField("Sender Gmail address", blank=True, help_text="The Gmail address that sends the notification emails.")
+    email_host_password = models.CharField("Gmail App Password", max_length=100, blank=True, help_text="A Gmail App Password (not the normal login password). Requires 2-Step Verification on that account.")
+    default_from_email = models.EmailField("From address", blank=True, help_text="Must be the same as the sender Gmail address. Leave blank to use the sender address.")
+    contact_receiver_email = models.EmailField("Receiver email", blank=True, help_text="The inbox that receives new applications. Leave blank to turn off email notifications.")
+
+    def __str__(self):
+        return "Email Settings"
+
+    class Meta:
+        verbose_name = "Email Settings"
+        verbose_name_plural = "Email Settings"
 
 
 class MenuItem(models.Model):
@@ -68,6 +91,9 @@ class HeroSection(SingletonModel):
 
     cta_text = models.CharField(max_length=50, default="Start Your Application")
     cta_link = models.CharField(max_length=255, default="#apply")
+
+    secondary_cta_text = models.CharField(max_length=50, blank=True, help_text="Optional second button, e.g. Learn How It Works. Leave blank to hide.")
+    secondary_cta_link = models.CharField(max_length=255, blank=True, default="#how-it-works")
 
     trust_badge_text = models.CharField(max_length=100, blank=True, help_text="e.g. Guided onboarding and training")
 
@@ -135,6 +161,7 @@ class WhyAgencySection(SingletonModel):
     eyebrow = models.CharField(max_length=100, blank=True, default="WHY AGENCY?")
     heading_regular = models.CharField(max_length=150, blank=True, help_text="e.g. More than a job.")
     heading_italic = models.CharField(max_length=150, blank=True, help_text="e.g. A Professional Opportunity.")
+    intro = models.TextField(blank=True, help_text="Optional short paragraph under the heading.")
 
     def __str__(self):
         return "Why Agency Section"
@@ -171,6 +198,9 @@ class TrainingSupportSection(SingletonModel):
     number_badge = models.CharField(max_length=10, blank=True, default="05", help_text="e.g. 05")
     eyebrow = models.CharField(max_length=100, blank=True, default="TRAINING & SUPPORT")
     heading = models.CharField(max_length=200, help_text="e.g. Guidance at Every Step.")
+    intro = models.TextField(blank=True, help_text="Optional short paragraph under the heading.")
+    cta_text = models.CharField(max_length=50, blank=True, help_text="Optional button under the items, e.g. Start Your Application. Leave blank to hide.")
+    cta_link = models.CharField(max_length=255, blank=True, default="#apply")
 
     image = models.ImageField(upload_to='training_support/', blank=True, null=True)
     image_caption = models.CharField(max_length=100, blank=True, help_text="e.g. Learn. Practise. Grow.")
@@ -305,6 +335,7 @@ class TestimonialsSection(SingletonModel):
     eyebrow = models.CharField(max_length=100, blank=True, default="TESTIMONIALS")
     heading_regular = models.CharField(max_length=150, blank=True, help_text="e.g. Real people.")
     heading_italic = models.CharField(max_length=150, blank=True, help_text="e.g. Meaningful journeys.")
+    subtitle = models.TextField(blank=True, help_text="Optional short paragraph under the heading.")
 
     def __str__(self):
         return "Testimonials Section"
@@ -553,6 +584,7 @@ class WhoCanApplyItem(models.Model):
     section = models.ForeignKey(WhoCanApplySection, on_delete=models.CASCADE, related_name='items')
     number = models.CharField(max_length=10, help_text="e.g. 01")
     title = models.CharField(max_length=100)
+    description = models.CharField(max_length=300, blank=True, help_text="Optional short line shown under the title.")
     order = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True, help_text="Uncheck to hide this item from the site.")
 

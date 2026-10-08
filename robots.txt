@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://insurancecareergrowth.com/sitemap.xml

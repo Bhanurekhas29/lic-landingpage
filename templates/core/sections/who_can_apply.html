@@ -20,7 +20,10 @@
           {% if item.is_active %}
           <div class="who-apply__item">
             <span class="who-apply__number">{{ forloop.counter|stringformat:"02d" }}</span>
-            <span class="who-apply__title">{{ item.title }}</span>
+            <div class="who-apply__text">
+              <span class="who-apply__title">{{ item.title }}</span>
+              {% if item.description %}<span class="who-apply__desc">{{ item.description }}</span>{% endif %}
+            </div>
           </div>
           {% endif %}
         {% endfor %}

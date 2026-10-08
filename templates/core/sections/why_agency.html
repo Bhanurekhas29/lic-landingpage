@@ -10,6 +10,7 @@
       <span class="italic">{{ why_agency.heading_italic }}</span>
     </h2>
     <div class="underline-accent reveal"></div>
+    {% if why_agency.intro %}<p class="section-subtitle reveal" style="margin-top:20px;">{{ why_agency.intro }}</p>{% endif %}
 
     <div class="feature-grid feature-grid--5">
       {% for feature in why_agency.features.all %}

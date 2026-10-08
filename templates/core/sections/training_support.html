@@ -17,6 +17,7 @@
           <span class="eyebrow-text">{{ training_support.eyebrow }}</span>
         </div>
         <h2 class="section-heading">{{ training_support.heading }}</h2>
+        {% if training_support.intro %}<p class="section-subtitle">{{ training_support.intro }}</p>{% endif %}
 
         <div class="checklist">
           {% for item in training_support.items.all %}
@@ -45,6 +46,11 @@
             {% endif %}
           {% endfor %}
         </div>
+        {% if training_support.cta_text %}
+        <div style="margin-top:32px;">
+          <a href="{{ training_support.cta_link }}" class="btn btn-primary">{{ training_support.cta_text }} {% include 'core/partials/arrow_icon.html' %}</a>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>
